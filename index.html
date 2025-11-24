@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PERYTON | The Hacker's Handbook (Ultimate Edition)</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            bg: '#0B1120',
+                            surface: '#1E293B', 
+                            border: '#334155',
+                            cyan: '#22d3ee',
+                            green: '#34d399',
+                            pink: '#f472b6',
+                            yellow: '#fbbf24',
+                            red: '#ef4444',
+                            orange: '#fb923c',
+                            purple: '#c084fc',
+                            teal: '#2dd4bf'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['Courier New', 'monospace'],
+                        sans: ['Segoe UI', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-cyber-bg text-slate-300 antialiased h-screen flex flex-col md:flex-row overflow-hidden">
+
+    <!-- MOBILE HEADER -->
+    <div class="md:hidden flex items-center justify-between p-4 bg-cyber-surface border-b border-cyber-border z-50 relative">
+        <span class="font-bold text-white tracking-widest">PERYTON</span>
+        <button id="menuBtn" class="text-white hover:text-cyber-cyan"><i data-lucide="menu"></i></button>
+    </div>
+
+    <!-- MOBILE BACKDROP -->
+    <div id="backdrop" class="fixed inset-0 bg-black/80 z-40 hidden md:hidden glass transition-opacity duration-300"></div>
+
+    <!-- SIDEBAR -->
+    <nav id="sidebar" class="fixed md:relative top-0 left-0 z-50 h-full w-3/4 md:w-80 bg-cyber-surface border-r border-cyber-border transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out flex flex-col shadow-2xl md:shadow-none">
+        
+        <div class="p-6 border-b border-cyber-border bg-black/20 pt-20 md:pt-6">
+            <h1 class="text-2xl md:text-3xl font-black text-white tracking-widest mb-1">PERYTON</h1>
+            <p class="text-cyber-cyan font-mono text-xs">* HACKER'S HANDBOOK *</p>
+            <div class="mt-4 px-3 py-1 bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded font-bold text-center">
+                EDUCATIONAL USE ONLY
+            </div>
+        </div>
+
+        <!-- Scrollable Links -->
+        <div class="flex-1 overflow-y-auto py-4 px-3 space-y-1 pb-32 md:pb-4">
+            <!-- Phase 1 -->
+            <div class="px-3 mt-4 mb-2 text-xs font-bold text-slate-500 uppercase">Phase I: Foundation</div>
+            <a href="#welcome" class="nav-link block px-3 py-2 rounded hover:bg-white/5 text-sm font-medium">Welcome & Legal</a>
+            <a href="#ch0-lab" class="nav-link block px-3 py-2 rounded hover:bg-white/5 text-sm font-medium">Ch.0 Portable Lab</a>
+            <a href="#ch1-fundamentals" class="nav-link block px-3 py-2 rounded hover:bg-white/5 text-sm font-medium">Ch.1 Fundamentals</a>
+            <a href="#ch2-opsec" class="nav-link block px-3 py-2 rounded hover:bg-white/5 text-sm font-medium">Ch.2 OpSec & Anonymity</a>
+
+            <!-- Phase 2 -->
+            <div class="px-3 mt-6 mb-2 text-xs font-bold text-slate-500 uppercase">Phase II: Infrastructure</div>
+            <a href="#mod1-spiderfoot" class="nav-link block px-3 py-2 rounded hover:bg-white/5 text-sm font-medium flex items-center gap-2">
+                <i data-lucide="network" class="w-4 h-4 text-cyber-cyan"></i> SpiderFoot
+            </a>
+            <a href="#mod2-photon" class="nav-link block px-3 py-2 rounded hover:bg-white/5 text-sm font-medium flex items-center gap-2">
+                <i data-lucide="globe" class="w-4 h-4 text-cyber-pink"></i> Photon
+            </a>
+            <a href="#mod3-maltego" class="nav-link block px-3 py-2 rounded hover:bg-white/5 text-sm font-medium flex items-center gap-2">
+                <i data-lucide="share-2" class="w-4 h-4 text-cyber-orange"></i> Maltego
+            </a>
+
+            <!-- Phase 3 -->
+            <div class="px-3 mt-6 mb-2 text-xs font-bold text-slate-500 uppercase">Phase III: Identity</div>
+            <a href="#mod4-ghunt" class="nav-link block px-3 py-2 rounded hover:bg-white/5 text-sm font-medium flex items-center gap-2">
+                <i data-lucide="search" class="w-4 h-4 text-cyber-yellow"></i> GHunt
+            </a>
+            <a href="#mod5-holehe" class="nav-link block px-3 py-2 rounded hover:bg-white/5 text-sm font-medium flex items-center gap-2">
+                <i data-lucide="at-sign" class="w-4 h-4 text-cyber-green"></i> Holehe
+            </a>
+            <a href="#mod6-sherlock" class="nav-link block px-3 py-2 rounded hover:bg-white/5 text-sm font-medium flex items-center gap-2">
+                <i data-lucide="user-search" class="w-4 h-4 text-purple-400"></i> Sherlock
+            </a>
+            <a href="#mod7-phoneinfoga" class="nav-link block px-3 py-2 rounded hover:bg-white/5 text-sm font-medium flex items-center gap-2">
+                <i data-lucide="phone" class="w-4 h-4 text-purple-400"></i> PhoneInfoga
+            </a>
+            <a href="#mod8-dehashed" class="nav-link block px-3 py-2 rounded hover:bg-white/5 text-sm font-medium flex items-center gap-2">
+                <i data-lucide="database" class="w-4 h-4 text-purple-400"></i> DeHashed
+            </a>
+            <a href="#mod9-pimeyes" class="nav-link block px-3 py-2 rounded hover:bg-white/5 text-sm font-medium flex items-center gap-2">
+                <i data-lucide="eye" class="w-4 h-4 text-purple-400"></i> PimEyes
+            </a>
+            <a href="#mod10-facecheck" class="nav-link block px-3 py-2 rounded hover:bg-white/5 text-sm font-medium flex items-center gap-2">
+                <i data-lucide="scan-face" class="w-4 h-4 text-purple-400"></i> FaceCheck.id
+            </a>
+
+            <!-- Phase 4 -->
+            <div class="px-3 mt-6 mb-2 text-xs font-bold text-slate-500 uppercase text-red-400">Phase IV: Social Eng.</div>
+            <a href="#mod11-zphisher" class="nav-link block px-3 py-2 rounded hover:bg-red-500/10 text-sm font-medium flex items-center gap-2 text-red-200">
+                <i data-lucide="fish" class="w-4 h-4 text-red-500"></i> Zphisher
+            </a>
+            <a href="#mod12-gophish" class="nav-link block px-3 py-2 rounded hover:bg-red-500/10 text-sm font-medium flex items-center gap-2 text-red-200">
+                <i data-lucide="mail" class="w-4 h-4 text-red-500"></i> Gophish
+            </a>
+            <a href="#mod13-evilginx" class="nav-link block px-3 py-2 rounded hover:bg-red-500/10 text-sm font-medium flex items-center gap-2 text-red-200">
+                <i data-lucide="shield-alert" class="w-4 h-4 text-red-500"></i> Evilginx3
+            </a>
+            <a href="#mod14-set" class="nav-link block px-3 py-2 rounded hover:bg-red-500/10 text-sm font-medium flex items-center gap-2 text-red-200">
+                <i data-lucide="box" class="w-4 h-4 text-red-500"></i> SET
+            </a>
+
+            <!-- Phase 5 -->
+            <div class="px-3 mt-6 mb-2 text-xs font-bold text-slate-500 uppercase text-cyber-orange">Phase V: Exploitation</div>
+            <a href="#mod15-metasploit" class="nav-link block px-3 py-2 rounded hover:bg-orange-500/10 text-sm font-medium flex items-center gap-2 text-orange-200">
+                <i data-lucide="skull" class="w-4 h-4 text-cyber-orange"></i> Metasploit
+            </a>
+            <a href="#mod16-fatrat" class="nav-link block px-3 py-2 rounded hover:bg-orange-500/10 text-sm font-medium flex items-center gap-2 text-orange-200">
+                <i data-lucide="mouse" class="w-4 h-4 text-cyber-orange"></i> TheFatRat
+            </a>
+            <a href="#mod17-ahmyth" class="nav-link block px-3 py-2 rounded hover:bg-orange-500/10 text-sm font-medium flex items-center gap-2 text-orange-200">
+                <i data-lucide="smartphone" class="w-4 h-4 text-cyber-orange"></i> AhMyth
+            </a>
+            <a href="#mod18-sliver" class="nav-link block px-3 py-2 rounded hover:bg-orange-500/10 text-sm font-medium flex items-center gap-2 text-orange-200">
+                <i data-lucide="server" class="w-4 h-4 text-cyber-orange"></i> Sliver
+            </a>
+            <a href="#mod19-havoc" class="nav-link block px-3 py-2 rounded hover:bg-orange-500/10 text-sm font-medium flex items-center gap-2 text-orange-200">
+                <i data-lucide="zap" class="w-4 h-4 text-cyber-orange"></i> Havoc
+            </a>
+            <a href="#mod20-cobalt" class="nav-link block px-3 py-2 rounded hover:bg-orange-500/10 text-sm font-medium flex items-center gap-2 text-orange-200">
+                <i data-lucide="gem" class="w-4 h-4 text-cyber-orange"></i> Cobalt Strike
+            </a>
+
+            <!-- Phase 6 (NEW) -->
+            <div class="px-3 mt-6 mb-2 text-xs font-bold text-slate-500 uppercase text-cyber-teal">Phase VI: Verif. Evasion</div>
+            <a href="#mod21-5sim" class="nav-link block px-3 py-2 rounded hover:bg-teal-500/10 text-sm font-medium flex items-center gap-2 text-teal-200">
+                <i data-lucide="message-square" class="w-4 h-4 text-cyber-teal"></i> 5SIM
+            </a>
+            <a href="#mod22-smspool" class="nav-link block px-3 py-2 rounded hover:bg-teal-500/10 text-sm font-medium flex items-center gap-2 text-teal-200">
+                <i data-lucide="waves" class="w-4 h-4 text-cyber-teal"></i> SMSPool
+            </a>
+            <a href="#mod23-smsred" class="nav-link block px-3 py-2 rounded hover:bg-teal-500/10 text-sm font-medium flex items-center gap-2 text-teal-200">
+                <i data-lucide="flame" class="w-4 h-4 text-cyber-teal"></i> SMSRed
+            </a>
+        </div>
+        
+        <div class="p-4 text-xs text-center text-slate-600 border-t border-cyber-border bg-cyber-surface md:block hidden">
+            v2.5.0 (Modules: 23)
+        </div>
+    </nav>
+
+    <!-- CONTENT AREA -->
+    <main class="flex-1 h-full overflow-y-auto p-6 md:p-12 scroll-smooth">
+        
+        <!-- INTRO -->
+        <section id="welcome" class="max-w-4xl mx-auto mb-24">
+            <div class="p-8 rounded-2xl bg-gradient-to-br from-cyber-surface to-cyber-bg border border-cyber-border shadow-2xl">
+                <h1 class="text-4xl md:text-5xl font-black text-white mb-6">Welcome to Peryton.</h1>
+                <p class="text-lg text-slate-400 mb-6">
+                    The ultimate Open Source Intelligence (OSINT) and Red Teaming handbook.
+                    From passive reconnaissance to advanced C2 infrastructure.
+                </p>
+                <div class="bg-red-500/10 border-l-4 border-red-500 p-4 rounded-r">
+                    <h4 class="text-red-400 font-bold uppercase text-sm mb-1">Legal Disclaimer</h4>
+                    <p class="text-sm text-red-200/80">
+                        Accessing systems without written permission is illegal.
+                        The author assumes no liability for misuse. Only scan targets you own.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PHASE I: FOUNDATION ==================== -->
+
+        <!-- CHAPTER 0 -->
+        <section id="ch0-lab" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-cyber-cyan/20 p-3 rounded-lg"><i data-lucide="usb" class="text-cyber-cyan w-6 h-6"></i></div>
+                <h2 class="text-3xl font-bold text-white">Chapter 0: The Portable Lab</h2>
+            </div>
+            
+            <div class="prose prose-invert max-w-none">
+                <p>A "Live USB" allows you to carry your hacking OS in your pocket. By enabling <strong>Persistence</strong>, data is saved after reboot.</p>
+                
+                <h3 class="text-xl font-bold text-white mt-8 mb-4">I. Setup Requirements</h3>
+                <ul class="list-disc list-inside text-slate-400 space-y-1 mb-6">
+                    <li>8GB+ USB Drive</li>
+                    <li>Kali Linux "Live Boot" ISO</li>
+                    <li>Rufus (Windows) or Etcher (Mac/Linux)</li>
+                </ul>
+
+                <h3 class="text-xl font-bold text-white mb-4">II. Configuration (Rufus)</h3>
+                <div class="bg-cyber-surface p-6 rounded-lg border border-cyber-border">
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li>Select your USB Device.</li>
+                        <li>Click <strong>SELECT</strong> and choose Kali ISO.</li>
+                        <li><strong class="text-cyber-cyan">CRITICAL:</strong> Use the "Persistent Partition Size" slider. Allocate max space (leave 1GB empty).</li>
+                        <li>Click <strong>START</strong> (ISO Image Mode).</li>
+                    </ol>
+                </div>
+
+                <h3 class="text-xl font-bold text-white mt-8 mb-4">III. Booting Instructions</h3>
+                <p class="mb-4">Tap the Boot Menu Key immediately after power on:</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-black/30 p-3 text-center rounded border border-slate-700">Dell: <span class="text-white font-mono">F12</span></div>
+                    <div class="bg-black/30 p-3 text-center rounded border border-slate-700">HP: <span class="text-white font-mono">F9</span></div>
+                    <div class="bg-black/30 p-3 text-center rounded border border-slate-700">Lenovo: <span class="text-white font-mono">Enter/F12</span></div>
+                    <div class="bg-black/30 p-3 text-center rounded border border-slate-700">Asus: <span class="text-white font-mono">Esc</span></div>
+                </div>
+                <div class="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded text-yellow-200 text-sm">
+                    <strong>Warning:</strong> On the Kali Splash Screen, do not hit Enter. Use arrows to select 
+                    <span class="font-bold bg-yellow-500/20 px-1">Live System with USB Persistence</span>.
+                </div>
+            </div>
+        </section>
+
+        <!-- CHAPTER 1 -->
+        <section id="ch1-fundamentals" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-purple-500/20 p-3 rounded-lg"><i data-lucide="terminal" class="text-purple-400 w-6 h-6"></i></div>
+                <h2 class="text-3xl font-bold text-white">Chapter 1: Fundamentals</h2>
+            </div>
+
+            <h3 class="text-xl font-bold text-white mb-4">I. The Linux File System</h3>
+            <div class="grid md:grid-cols-2 gap-4 mb-8">
+                <div class="bg-cyber-surface p-4 rounded border border-cyber-border">
+                    <code class="text-cyber-cyan text-lg">/</code> (Root)
+                    <p class="text-sm text-slate-500 mt-1">The start of the system.</p>
+                </div>
+                <div class="bg-cyber-surface p-4 rounded border border-cyber-border">
+                    <code class="text-cyber-cyan text-lg">/etc</code>
+                    <p class="text-sm text-slate-500 mt-1">Configuration files (The Brain).</p>
+                </div>
+                <div class="bg-cyber-surface p-4 rounded border border-cyber-border">
+                    <code class="text-cyber-cyan text-lg">/root</code>
+                    <p class="text-sm text-slate-500 mt-1">Home folder for Admin.</p>
+                </div>
+                <div class="bg-cyber-surface p-4 rounded border border-cyber-border">
+                    <code class="text-cyber-cyan text-lg">/opt</code>
+                    <p class="text-sm text-slate-500 mt-1">Optional software (Install tools here).</p>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-white mb-4">II. Terminal Cheat Sheet</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-cyber-border text-xs uppercase text-slate-500">
+                            <th class="py-2">Command</th>
+                            <th class="py-2">Action</th>
+                            <th class="py-2">Example</th>
+                        </tr>
+                    </thead>
+                    <tbody class="font-mono text-sm">
+                        <tr class="border-b border-cyber-border/50 hover:bg-white/5">
+                            <td class="py-3 text-cyber-pink">sudo</td>
+                            <td>Run as Admin</td>
+                            <td>sudo apt update</td>
+                        </tr>
+                        <tr class="border-b border-cyber-border/50 hover:bg-white/5">
+                            <td class="py-3 text-cyber-pink">pwd</td>
+                            <td>Show location</td>
+                            <td>pwd</td>
+                        </tr>
+                        <tr class="border-b border-cyber-border/50 hover:bg-white/5">
+                            <td class="py-3 text-cyber-pink">ls -la</td>
+                            <td>List all files</td>
+                            <td>ls -la</td>
+                        </tr>
+                        <tr class="border-b border-cyber-border/50 hover:bg-white/5">
+                            <td class="py-3 text-cyber-pink">cd</td>
+                            <td>Change Folder</td>
+                            <td>cd /opt</td>
+                        </tr>
+                        <tr class="border-b border-cyber-border/50 hover:bg-white/5">
+                            <td class="py-3 text-cyber-pink">cat</td>
+                            <td>Read File</td>
+                            <td>cat notes.txt</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- CHAPTER 2 -->
+        <section id="ch2-opsec" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="bg-indigo-500/20 p-3 rounded-lg"><i data-lucide="ghost" class="text-indigo-400 w-6 h-6"></i></div>
+                <h2 class="text-3xl font-bold text-white">Chapter 2: OpSec & Anonymity</h2>
+            </div>
+            
+            <p class="mb-6">Before you scan, you must cloak. We use MAC Spoofing (Local) and ProxyChains (Network).</p>
+
+            <h3 class="text-lg font-bold text-white mb-2">Level 1: MAC Spoofing</h3>
+            <pre class="p-4 rounded-lg text-sm mb-6 overflow-x-auto">
+<span class="text-slate-500"># 1. Take network down</span>
+<span class="cmd-prompt">$</span>sudo ifconfig wlan0 down
+
+<span class="text-slate-500"># 2. Randomize Hardware ID</span>
+<span class="cmd-prompt">$</span>sudo macchanger -r wlan0
+
+<span class="text-slate-500"># 3. Bring network up</span>
+<span class="cmd-prompt">$</span>sudo ifconfig wlan0 up</pre>
+
+            <h3 class="text-lg font-bold text-white mb-2">Level 2: The "Ghost" Ritual (ProxyChains)</h3>
+            <p class="text-sm text-slate-400 mb-2">Run this before every scan to route traffic through Tor.</p>
+            <pre class="p-4 rounded-lg text-sm overflow-x-auto">
+<span class="text-slate-500"># 1. Start the Tor Service</span>
+<span class="cmd-prompt">$</span>sudo service tor start
+
+<span class="text-slate-500"># 2. Check your public IP (Should be different from home)</span>
+<span class="cmd-prompt">$</span>proxychains curl ifconfig.me</pre>
+        </section>
+
+        <!-- ==================== PHASE II: INFRASTRUCTURE ==================== -->
+
+        <!-- MODULE 1 -->
+        <section id="mod1-spiderfoot" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 1: SpiderFoot</h2>
+                    <p class="text-cyber-cyan font-mono text-sm mt-1">AUTOMATED INFRASTRUCTURE MAPPING</p>
+                </div>
+                <i data-lucide="network" class="w-10 h-10 text-slate-600"></i>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div>
+                    <h4 class="font-bold text-white mb-2">Description</h4>
+                    <p class="text-sm text-slate-400">An automated OSINT framework that queries 100+ public data sources (WhoIs, DNS, Blacklists) to map a target's infrastructure.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-2">Use Case</h4>
+                    <ul class="text-sm text-slate-400 list-disc list-inside">
+                        <li>Asset Discovery (Subdomains/IPs)</li>
+                        <li>Threat Intelligence (Blacklists)</li>
+                        <li>Data Leaks (Exposed PII)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h4 class="font-bold text-white mb-2">Installation</h4>
+            <pre class="p-4 rounded-lg text-sm mb-6 overflow-x-auto">
+git clone https://github.com/smicallef/spiderfoot.git
+cd spiderfoot
+pip3 install -r requirements.txt</pre>
+
+            <h4 class="font-bold text-white mb-2">Execution & Data Retrieval</h4>
+            <pre class="p-4 rounded-lg text-sm mb-4 overflow-x-auto">
+<span class="text-slate-500"># Launch Web GUI (Recommended)</span>
+python3 sf.py -l 127.0.0.1:5001</pre>
+            
+            <div class="bg-cyber-surface p-4 rounded border border-cyber-border text-sm">
+                <strong>Visual Workflow:</strong> Open browser to <code class="text-cyber-cyan">http://127.0.0.1:5001</code>.<br>
+                <strong>Output:</strong> Results are visualized in graphs. Export as CSV/JSON from the "Export" tab in the dashboard.
+            </div>
+        </section>
+
+        <!-- MODULE 2 -->
+        <section id="mod2-photon" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 2: Photon</h2>
+                    <p class="text-cyber-pink font-mono text-sm mt-1">WEB CRAWLER & EXTRACTION</p>
+                </div>
+                <i data-lucide="globe" class="w-10 h-10 text-slate-600"></i>
+            </div>
+
+            <p class="mb-6">High-speed crawler that extracts secrets, keys, and files rather than just indexing pages.</p>
+
+            <h4 class="font-bold text-white mb-2">Installation</h4>
+            <pre class="p-4 rounded-lg text-sm mb-6 overflow-x-auto">
+git clone https://github.com/s0md3v/Photon.git
+cd Photon
+pip3 install -r requirements.txt</pre>
+
+            <h4 class="font-bold text-white mb-2">Commands & Data Retrieval</h4>
+            <pre class="p-4 rounded-lg text-sm mb-4 overflow-x-auto">
+<span class="text-slate-500"># Map site, depth 2, look for keys and archived copies</span>
+python3 photon.py -u http://example.com -l 2 --keys --wayback</pre>
+
+            <div class="bg-cyber-surface p-4 rounded border border-cyber-border text-sm">
+                <strong>Output Location:</strong> Photon creates a folder named <code>/domain.com</code>.<br>
+                Look for: <code class="text-cyber-pink">intel.txt</code> (Emails), <code class="text-cyber-pink">keys.txt</code> (API Keys), <code class="text-cyber-pink">files.txt</code> (PDFs/Docs).
+            </div>
+        </section>
+
+        <!-- MODULE 3 (MALTEGO) -->
+        <section id="mod3-maltego" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 3: Maltego</h2>
+                    <p class="text-cyber-orange font-mono text-sm mt-1">GRAPH LINK ANALYSIS & VISUALIZATION</p>
+                </div>
+                <i data-lucide="share-2" class="w-10 h-10 text-slate-600"></i>
+            </div>
+
+            <p class="mb-6">An interactive data mining tool that renders directed graphs for link analysis. It connects people, groups, webpages, domains, networks, and internet infrastructure.</p>
+
+            <h4 class="font-bold text-white mb-2">Installation</h4>
+            <pre class="p-4 rounded-lg text-sm mb-6 overflow-x-auto">
+<span class="text-slate-500"># Pre-installed on Kali, but to update:</span>
+sudo apt update && sudo apt install maltego</pre>
+
+            <h4 class="font-bold text-white mb-2">Execution</h4>
+            <pre class="p-4 rounded-lg text-sm mb-4 overflow-x-auto">maltego</pre>
+            
+            <div class="bg-cyber-surface p-4 rounded border border-cyber-border text-sm mb-6">
+                <strong>Registration:</strong> Maltego requires a free "Community Edition" account registration upon first launch.<br>
+                <strong>Workflow:</strong> Drag a "Domain" entity onto the graph -> Right click -> "Run Transform" -> "To IP Address".
+            </div>
+        </section>
+
+        <!-- ==================== PHASE III: IDENTITY ==================== -->
+
+        <!-- MODULE 4 -->
+        <section id="mod4-ghunt" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 4: GHunt</h2>
+                    <p class="text-cyber-yellow font-mono text-sm mt-1">GOOGLE ECOSYSTEM INTELLIGENCE</p>
+                </div>
+                <i data-lucide="search" class="w-10 h-10 text-slate-600"></i>
+            </div>
+
+            <div class="bg-yellow-500/10 p-4 rounded mb-6 border-l-4 border-yellow-500">
+                <strong>Prerequisite:</strong> Requires "GHunt Companion" browser extension to configure cookies.
+            </div>
+
+            <h4 class="font-bold text-white mb-2">Installation (via pipx)</h4>
+            <pre class="p-4 rounded-lg text-sm mb-6 overflow-x-auto">
+sudo apt install pipx
+pipx ensurepath
+pipx install ghunt</pre>
+
+            <h4 class="font-bold text-white mb-2">Execution</h4>
+            <pre class="p-4 rounded-lg text-sm mb-4 overflow-x-auto">
+<span class="text-slate-500"># Analyze Email</span>
+ghunt email target@gmail.com
+
+<span class="text-slate-500"># Analyze Drive File</span>
+ghunt drive https://drive.google.com/file/...</pre>
+
+            <p class="text-sm text-slate-400"><strong>Data Retrieval:</strong> Outputs Profile Photos, Review locations (Physical Intelligence), and device models directly in the terminal.</p>
+        </section>
+
+        <!-- MODULE 5 -->
+        <section id="mod5-holehe" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 5: Holehe</h2>
+                    <p class="text-cyber-green font-mono text-sm mt-1">ACCOUNT VALIDATION</p>
+                </div>
+                <i data-lucide="at-sign" class="w-10 h-10 text-slate-600"></i>
+            </div>
+
+            <p class="mb-6">Checks if an email is registered on 120+ sites (Twitter, Instagram, etc.) without alerting the user.</p>
+
+            <h4 class="font-bold text-white mb-2">Installation</h4>
+            <pre class="p-4 rounded-lg text-sm mb-6 overflow-x-auto">sudo pip3 install holehe</pre>
+
+            <h4 class="font-bold text-white mb-2">Command</h4>
+            <pre class="p-4 rounded-lg text-sm mb-4 overflow-x-auto">holehe target@gmail.com --csv-file results.csv</pre>
+
+            <div class="grid grid-cols-2 gap-4 text-center text-sm font-bold">
+                <div class="p-3 bg-green-500/20 text-green-400 border border-green-500/30 rounded">Green Text = Account Exists</div>
+                <div class="p-3 bg-purple-500/20 text-purple-400 border border-purple-500/30 rounded">Purple Text = No Account</div>
+            </div>
+        </section>
+
+        <!-- MODULE 6 -->
+        <section id="mod6-sherlock" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 6: Sherlock</h2>
+                    <p class="text-purple-400 font-mono text-sm mt-1">USERNAME HUNTING</p>
+                </div>
+                <i data-lucide="user-search" class="w-10 h-10 text-slate-600"></i>
+            </div>
+
+            <p class="mb-6">Scans 300+ social networks to see if a specific username is taken.</p>
+
+            <h4 class="font-bold text-white mb-2">Installation</h4>
+            <pre class="p-4 rounded-lg text-sm mb-6 overflow-x-auto">
+git clone https://github.com/sherlock-project/sherlock.git
+cd sherlock
+pip3 install -r requirements.txt</pre>
+
+            <h4 class="font-bold text-white mb-2">Command & Data Retrieval</h4>
+            <pre class="p-4 rounded-lg text-sm mb-4 overflow-x-auto">python3 sherlock target_username</pre>
+            
+            <p class="text-sm text-slate-400">
+                <strong>Output:</strong> Creates a text file named <code class="text-purple-400">username.txt</code> in the current folder containing direct URLs to profiles found.
+            </p>
+        </section>
+
+        <!-- MODULE 7 (PHONEINFOGA) -->
+        <section id="mod7-phoneinfoga" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 7: PhoneInfoga</h2>
+                    <p class="text-purple-400 font-mono text-sm mt-1">PHONE NUMBER INTELLIGENCE</p>
+                </div>
+                <i data-lucide="phone" class="w-10 h-10 text-slate-600"></i>
+            </div>
+            <p class="mb-6">Advanced tool for scanning phone numbers. It locates carrier, geolocation details, and VoIP status.</p>
+            <h4 class="font-bold text-white mb-2">Installation (Docker Recommended)</h4>
+            <pre class="p-4 rounded-lg text-sm mb-6 overflow-x-auto">docker pull sundowndev/phoneinfoga:latest</pre>
+            <h4 class="font-bold text-white mb-2">Command</h4>
+            <pre class="p-4 rounded-lg text-sm mb-4 overflow-x-auto">
+docker run --rm -it sundowndev/phoneinfoga scan -n "+15555555555"</pre>
+        </section>
+
+        <!-- MODULE 8 (DEHASHED) -->
+        <section id="mod8-dehashed" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 8: DeHashed</h2>
+                    <p class="text-purple-400 font-mono text-sm mt-1">CREDENTIAL SEARCH ENGINE</p>
+                </div>
+                <i data-lucide="database" class="w-10 h-10 text-slate-600"></i>
+            </div>
+            <p class="mb-6">A search engine for viewing leaked credentials from data breaches. Essential for checking if a target's password has been exposed.</p>
+            <div class="bg-cyber-surface p-4 rounded border border-cyber-border text-sm mb-6">
+                <strong>Access:</strong> <a href="https://dehashed.com" target="_blank" class="text-cyber-cyan hover:underline">https://dehashed.com</a><br>
+                <strong>Note:</strong> Requires a paid subscription for full results (cleartext passwords).
+            </div>
+        </section>
+
+        <!-- MODULE 9 (PIMEYES) -->
+        <section id="mod9-pimeyes" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 9: PimEyes</h2>
+                    <p class="text-purple-400 font-mono text-sm mt-1">FACIAL RECOGNITION SEARCH ENGINE</p>
+                </div>
+                <i data-lucide="eye" class="w-10 h-10 text-slate-600"></i>
+            </div>
+            <p class="mb-6">A reverse image search engine that uses facial recognition technology to find pictures containing a specific face across the open web.</p>
+            <div class="bg-cyber-surface p-4 rounded border border-cyber-border text-sm mb-6">
+                <strong>Access:</strong> <a href="https://pimeyes.com" target="_blank" class="text-cyber-cyan hover:underline">https://pimeyes.com</a><br>
+                <strong>Note:</strong> This is a paid SaaS tool (freemium mostly removed).
+            </div>
+        </section>
+
+        <!-- MODULE 10 (FACECHECK) -->
+        <section id="mod10-facecheck" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 10: FaceCheck.id</h2>
+                    <p class="text-purple-400 font-mono text-sm mt-1">IDENTITY VERIFICATION</p>
+                </div>
+                <i data-lucide="scan-face" class="w-10 h-10 text-slate-600"></i>
+            </div>
+            <p class="mb-6">A facial recognition search engine specifically designed to verify people by linking photos to social media profiles, mugshots, and news articles.</p>
+            <div class="bg-cyber-surface p-4 rounded border border-cyber-border text-sm mb-6">
+                <strong>Access:</strong> <a href="https://facecheck.id" target="_blank" class="text-cyber-cyan hover:underline">https://facecheck.id</a><br>
+                <strong>Workflow:</strong> Upload a clear photo of the target face to find their online presence.
+            </div>
+        </section>
+
+        <!-- ==================== PHASE IV: SOCIAL ENGINEERING ==================== -->
+
+        <!-- MODULE 11 (ZPHISHER) -->
+        <section id="mod11-zphisher" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 11: Zphisher</h2>
+                    <p class="text-red-400 font-mono text-sm mt-1">AUTOMATED PHISHING</p>
+                </div>
+                <i data-lucide="fish" class="w-10 h-10 text-slate-600"></i>
+            </div>
+
+            <div class="bg-red-500/10 p-4 rounded mb-6 border-l-4 border-red-500 text-sm text-red-200">
+                <strong>Warning:</strong> Active Phishing Tool. Educational use only.
+            </div>
+
+            <p class="mb-6">Generates automated phishing pages (Instagram, Facebook, etc.) and creates tunneling links (Cloudflare/Ngrok).</p>
+
+            <h4 class="font-bold text-white mb-2">Installation</h4>
+            <pre class="danger p-4 rounded-lg text-sm mb-6 overflow-x-auto">
+git clone https://github.com/htr-tech/zphisher
+cd zphisher
+chmod +x zphisher.sh</pre>
+
+            <h4 class="font-bold text-white mb-2">Execution</h4>
+            <pre class="danger p-4 rounded-lg text-sm mb-4 overflow-x-auto">bash zphisher.sh</pre>
+            
+            <p class="text-sm text-slate-400"><strong>Data:</strong> Captured credentials are saved to <code class="text-red-400">usernames.dat</code>.</p>
+        </section>
+
+        <!-- MODULE 12 (GOPHISH) -->
+        <section id="mod12-gophish" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 12: Gophish</h2>
+                    <p class="text-red-400 font-mono text-sm mt-1">CAMPAIGN MANAGEMENT</p>
+                </div>
+                <i data-lucide="mail" class="w-10 h-10 text-slate-600"></i>
+            </div>
+
+            <p class="mb-6">An open-source phishing framework that simulates real-world attacks. It tracks who opens emails, clicks links, and submits data, making it the industry standard for corporate security training.</p>
+
+            <h4 class="font-bold text-white mb-2">Installation (Linux 64-bit)</h4>
+            <pre class="danger p-4 rounded-lg text-sm mb-6 overflow-x-auto">
+wget https://github.com/gophish/gophish/releases/download/v0.12.1/gophish-v0.12.1-linux-64bit.zip
+unzip gophish-v0.12.1-linux-64bit.zip
+chmod +x gophish</pre>
+
+            <h4 class="font-bold text-white mb-2">Execution & Dashboard</h4>
+            <pre class="danger p-4 rounded-lg text-sm mb-4 overflow-x-auto">sudo ./gophish</pre>
+            
+            <div class="bg-cyber-surface p-4 rounded border border-cyber-border text-sm mb-6">
+                <strong>Admin Panel:</strong> Open browser to <code class="text-red-400">https://127.0.0.1:3333</code>.<br>
+                <strong>Default Creds:</strong> Check your terminal output for the initial "admin" password.
+            </div>
+        </section>
+
+        <!-- MODULE 13 (EVILGINX) -->
+        <section id="mod13-evilginx" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 13: Evilginx3</h2>
+                    <p class="text-red-400 font-mono text-sm mt-1">2FA BYPASS & SESSION HIJACKING</p>
+                </div>
+                <i data-lucide="shield-alert" class="w-10 h-10 text-slate-600"></i>
+            </div>
+
+            <p class="mb-6">A Man-in-the-Middle (MitM) attack framework used for phishing login credentials along with <strong>session cookies</strong>, which allows for bypassing Two-Factor Authentication (2FA).</p>
+
+            <h4 class="font-bold text-white mb-2">Installation (Go Required)</h4>
+            <pre class="danger p-4 rounded-lg text-sm mb-6 overflow-x-auto">
+sudo apt install golang
+git clone https://github.com/kgretzky/evilginx2
+cd evilginx2
+make</pre>
+
+            <h4 class="font-bold text-white mb-2">Execution</h4>
+            <pre class="danger p-4 rounded-lg text-sm mb-4 overflow-x-auto">sudo ./bin/evilginx -p ./phishlets/</pre>
+            
+            <p class="text-sm text-slate-400"><strong>Data Retrieval:</strong> Captured sessions (tokens) are stored in the internal database. Use command <code>sessions</code> inside the tool to view them.</p>
+        </section>
+
+        <!-- MODULE 14 (SET) -->
+        <section id="mod14-set" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 14: SET</h2>
+                    <p class="text-red-400 font-mono text-sm mt-1">THE SWISS ARMY KNIFE</p>
+                </div>
+                <i data-lucide="box" class="w-10 h-10 text-slate-600"></i>
+            </div>
+
+            <p class="mb-6">The Social-Engineer Toolkit (SET) is specifically designed to perform advanced attacks against the human element. Features include SMS spoofing, QR code attacks, and PowerShell injection.</p>
+
+            <h4 class="font-bold text-white mb-2">Installation</h4>
+            <pre class="danger p-4 rounded-lg text-sm mb-6 overflow-x-auto">
+git clone https://github.com/trustedsec/social-engineer-toolkit/ setoolkit/
+cd setoolkit
+pip3 install -r requirements.txt
+python3 setup.py</pre>
+
+            <h4 class="font-bold text-white mb-2">Execution</h4>
+            <pre class="danger p-4 rounded-lg text-sm mb-4 overflow-x-auto">sudo setoolkit</pre>
+            
+            <div class="bg-cyber-surface p-4 rounded border border-cyber-border text-sm mb-6">
+                <strong>Workflow:</strong> Menu Driven.<br>
+                1) Social-Engineering Attacks -> 2) Website Attack Vectors -> 3) Credential Harvester Method.
+            </div>
+        </section>
+
+        <!-- ==================== PHASE V: EXPLOITATION & C2 ==================== -->
+
+        <!-- MODULE 15: METASPLOIT -->
+        <section id="mod15-metasploit" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 15: Metasploit</h2>
+                    <p class="text-cyber-orange font-mono text-sm mt-1">THE EXPLOITATION FRAMEWORK</p>
+                </div>
+                <i data-lucide="skull" class="w-10 h-10 text-slate-600"></i>
+            </div>
+            <p class="mb-6">The world's most used penetration testing framework. It contains thousands of exploits, payloads, and auxiliary scanners.</p>
+            <h4 class="font-bold text-white mb-2">Installation</h4>
+            <div class="bg-cyber-surface p-4 rounded border border-cyber-border text-sm mb-6">Pre-installed on Kali Linux.</div>
+            <h4 class="font-bold text-white mb-2">Execution</h4>
+            <pre class="critical p-4 rounded-lg text-sm mb-4 overflow-x-auto">msfconsole</pre>
+            <div class="bg-cyber-surface p-4 rounded border border-cyber-border text-sm mb-6">
+                <strong>Common Workflow:</strong><br>
+                <code>use exploit/windows/smb/ms17_010_eternalblue</code><br>
+                <code>set RHOSTS [Target IP]</code><br>
+                <code>run</code>
+            </div>
+        </section>
+
+        <!-- MODULE 16: THEFATRAT -->
+        <section id="mod16-fatrat" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 16: TheFatRat</h2>
+                    <p class="text-cyber-orange font-mono text-sm mt-1">PAYLOAD AUTOMATION & EVASION</p>
+                </div>
+                <i data-lucide="mouse" class="w-10 h-10 text-slate-600"></i>
+            </div>
+            <p class="mb-6">A tool to generate backdoors and payloads (using MSFVenom) that can bypass some anti-virus protections.</p>
+            <h4 class="font-bold text-white mb-2">Installation</h4>
+            <pre class="critical p-4 rounded-lg text-sm mb-6 overflow-x-auto">
+git clone https://github.com/Screetsec/TheFatRat.git
+cd TheFatRat
+chmod +x setup.sh && ./setup.sh</pre>
+            <h4 class="font-bold text-white mb-2">Execution</h4>
+            <pre class="critical p-4 rounded-lg text-sm mb-4 overflow-x-auto">fatrat</pre>
+        </section>
+
+        <!-- MODULE 17: AHMYTH -->
+        <section id="mod17-ahmyth" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 17: AhMyth</h2>
+                    <p class="text-cyber-orange font-mono text-sm mt-1">ANDROID REMOTE ADMINISTRATION</p>
+                </div>
+                <i data-lucide="smartphone" class="w-10 h-10 text-slate-600"></i>
+            </div>
+            <p class="mb-6">An open-source Remote Access Trojan (RAT) specifically for Android. It builds an infected APK that gives you control over the camera, microphone, and files.</p>
+            <h4 class="font-bold text-white mb-2">Installation</h4>
+            <pre class="critical p-4 rounded-lg text-sm mb-6 overflow-x-auto">
+# Download the AppImage from GitHub Releases
+wget https://github.com/AhMyth/AhMyth-Android-RAT/releases/download/v1.0-beta/AhMyth-linux-x64.AppImage
+chmod +x AhMyth-linux-x64.AppImage</pre>
+            <h4 class="font-bold text-white mb-2">Execution</h4>
+            <pre class="critical p-4 rounded-lg text-sm mb-4 overflow-x-auto">./AhMyth-linux-x64.AppImage</pre>
+        </section>
+
+        <!-- MODULE 18: SLIVER -->
+        <section id="mod18-sliver" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 18: Sliver</h2>
+                    <p class="text-cyber-orange font-mono text-sm mt-1">CROSS-PLATFORM C2 FRAMEWORK</p>
+                </div>
+                <i data-lucide="server" class="w-10 h-10 text-slate-600"></i>
+            </div>
+            <p class="mb-6">A modern Command & Control framework written in Go. It supports multi-player mode, allowing multiple hackers to control a fleet of infected machines.</p>
+            <h4 class="font-bold text-white mb-2">Installation</h4>
+            <pre class="critical p-4 rounded-lg text-sm mb-6 overflow-x-auto">
+# Install Script
+curl https://sliver.sh/install|sudo bash</pre>
+            <h4 class="font-bold text-white mb-2">Execution</h4>
+            <pre class="critical p-4 rounded-lg text-sm mb-4 overflow-x-auto">sliver</pre>
+            <p class="text-sm text-slate-400"><strong>Key Command:</strong> <code>generate --mtls [Your_IP]</code> to create an implant.</p>
+        </section>
+
+        <!-- MODULE 19: HAVOC -->
+        <section id="mod19-havoc" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 19: Havoc</h2>
+                    <p class="text-cyber-orange font-mono text-sm mt-1">MODERN POST-EXPLOITATION C2</p>
+                </div>
+                <i data-lucide="zap" class="w-10 h-10 text-slate-600"></i>
+            </div>
+            <p class="mb-6">A sleek, malleable C2 framework that rivals Cobalt Strike. It uses a modern GUI and advanced evasion techniques.</p>
+            <h4 class="font-bold text-white mb-2">Installation (Complex)</h4>
+            <pre class="critical p-4 rounded-lg text-sm mb-6 overflow-x-auto">
+git clone https://github.com/HavocFramework/Havoc.git
+cd Havoc
+# Follow the extensive dependency list on GitHub (Go, Python, Qt)</pre>
+            <h4 class="font-bold text-white mb-2">Execution</h4>
+            <pre class="critical p-4 rounded-lg text-sm mb-4 overflow-x-auto">./havoc client</pre>
+        </section>
+
+        <!-- MODULE 20: COBALT STRIKE -->
+        <section id="mod20-cobalt" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 20: Cobalt Strike</h2>
+                    <p class="text-cyber-orange font-mono text-sm mt-1">THE GOLD STANDARD</p>
+                </div>
+                <i data-lucide="gem" class="w-10 h-10 text-slate-600"></i>
+            </div>
+            <div class="bg-yellow-500/10 p-4 rounded mb-6 border-l-4 border-yellow-500 text-sm text-yellow-200">
+                <strong>Note:</strong> This is a commercial tool ($3,500+). Cracked versions are often backdoored.
+            </div>
+            <p class="mb-6">The de-facto standard for Red Team operations and Adversary Simulation. Known for its stable "Beacon" payload and Malleable C2 profiles.</p>
+            <h4 class="font-bold text-white mb-2">Components</h4>
+            <ul class="list-disc list-inside text-sm text-slate-400 mb-6">
+                <li><strong>Teamserver:</strong> The brain. Runs on Linux C2 server.</li>
+                <li><strong>Client:</strong> The GUI. Runs on operator's machine.</li>
+            </ul>
+            <h4 class="font-bold text-white mb-2">Execution (Teamserver)</h4>
+            <pre class="critical p-4 rounded-lg text-sm mb-4 overflow-x-auto">./teamserver [IP_Address] [Password]</pre>
+        </section>
+
+        <!-- ==================== PHASE VI: VERIFICATION EVASION ==================== -->
+
+        <!-- MODULE 21: 5SIM -->
+        <section id="mod21-5sim" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 21: 5SIM</h2>
+                    <p class="text-cyber-teal font-mono text-sm mt-1">VIRTUAL NUMBER SERVICE</p>
+                </div>
+                <i data-lucide="message-square" class="w-10 h-10 text-slate-600"></i>
+            </div>
+            <p class="mb-6">A service providing temporary virtual numbers for receiving SMS verifications (OTPs) from services like WhatsApp, Telegram, and Google.</p>
+            <div class="bg-cyber-surface p-4 rounded border border-cyber-border text-sm mb-6">
+                <strong>Access:</strong> <a href="https://5sim.net" target="_blank" class="text-cyber-cyan hover:underline">https://5sim.net</a><br>
+                <strong>Use Case:</strong> Creating "Burner" accounts for social engineering or anonymous communication.
+            </div>
+        </section>
+
+        <!-- MODULE 22: SMSPOOL -->
+        <section id="mod22-smspool" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 22: SMSPool</h2>
+                    <p class="text-cyber-teal font-mono text-sm mt-1">CRYPTO-FRIENDLY SMS VERIFICATION</p>
+                </div>
+                <i data-lucide="waves" class="w-10 h-10 text-slate-600"></i>
+            </div>
+            <p class="mb-6">A marketplace for high-quality SMS verifications. Known for having "clean" numbers that are not rejected by major platforms.</p>
+            <div class="bg-cyber-surface p-4 rounded border border-cyber-border text-sm mb-6">
+                <strong>Access:</strong> <a href="https://smspool.net" target="_blank" class="text-cyber-cyan hover:underline">https://smspool.net</a><br>
+                <strong>Advantage:</strong> Accepts Cryptocurrency for payment (High Anonymity).
+            </div>
+        </section>
+
+        <!-- MODULE 23: SMSRED -->
+        <section id="mod23-smsred" class="max-w-4xl mx-auto mb-24 pt-10 border-t border-cyber-border/50">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Module 23: SMSRed</h2>
+                    <p class="text-cyber-teal font-mono text-sm mt-1">BUDGET SMS ACTIVATION</p>
+                </div>
+                <i data-lucide="flame" class="w-10 h-10 text-slate-600"></i>
+            </div>
+            <p class="mb-6">A cost-effective SMS activation service popular for bulk account creation.</p>
+            <div class="bg-cyber-surface p-4 rounded border border-cyber-border text-sm mb-6">
+                <strong>Access:</strong> <a href="https://sms-activate.org" target="_blank" class="text-cyber-cyan hover:underline">https://sms-activate.org</a> (Often associated with Red/Activate brands)<br>
+                <strong>Use Case:</strong> High-volume account generation.
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="text-center py-12 border-t border-cyber-border text-slate-600 text-sm">
+            <p class="font-mono text-cyber-cyan mb-2">Knowledge is the weapon, but ethics is the shield.</p>
+            <p>&copy; 2025 Peryton Security Research</p>
+        </footer>
+    </main>
+
+    
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
