@@ -39,8 +39,26 @@
         }
     </script>
 
-    
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Syntax Highlighting Base */
+        pre { background: #0f172a; border-left: 4px solid #22d3ee; }
+        .cmd-prompt { color: #34d399; margin-right: 8px; }
+        .cmd-path { color: #60a5fa; }
+        
+        /* Danger Mode for Active Tools */
+        pre.danger { border-left: 4px solid #ef4444; }
+        pre.critical { border-left: 4px solid #fb923c; }
+        pre.evasion { border-left: 4px solid #2dd4bf; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B1120; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #22d3ee; }
+
+        /* Smooth Anchor Offset */
+        section { scroll-margin-top: 2rem; }
+    </style>
 </head>
 <body class="bg-cyber-bg text-slate-300 antialiased h-screen flex flex-col md:flex-row overflow-hidden">
 
@@ -862,10 +880,44 @@ cd Havoc
         </footer>
     </main>
 
-    
-    <script src="script.js"></script>
+    <script>
+        // Init Icons
+        lucide.createIcons();
+
+        // Mobile Menu Elements
+        const menuBtn = document.getElementById('menuBtn');
+        const sidebar = document.getElementById('sidebar');
+        const backdrop = document.getElementById('backdrop');
+
+        function toggleMenu() {
+            const isOpen = !sidebar.classList.contains('-translate-x-full');
+            
+            if (isOpen) {
+                // Close
+                sidebar.classList.add('-translate-x-full');
+                sidebar.classList.remove('translate-x-0');
+                backdrop.classList.add('hidden');
+            } else {
+                // Open
+                sidebar.classList.remove('-translate-x-full');
+                sidebar.classList.add('translate-x-0');
+                backdrop.classList.remove('hidden');
+            }
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+        backdrop.addEventListener('click', toggleMenu);
+
+        // Close sidebar on link click (Mobile only)
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if(window.innerWidth < 768) {
+                    toggleMenu();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
-
 
 
